@@ -47,3 +47,49 @@ public:
         return res;
     }
 };
+
+
+
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * longest common subsequence
+     * @param s1 string字符串 the string
+     * @param s2 string字符串 the string
+     * @return string字符串
+     */
+    string LCS(string s1, string s2) {
+        int m = s1.size();
+        int n = s2.size();
+        vector<vector<int>>d(m + 1, vector<int>(n + 1));
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+               d[i][j] = max(d[i - 1][j], d[i][j - 1]);
+                if (s1[i - 1] == s2[j - 1]) {
+                    d[i][j] = max(d[i][j],d[i - 1][j - 1] + 1);
+                }
+            }
+        }
+        string ans;
+        int i = m;
+        int j = n;
+        while (d[i][j]) {
+            if(d[i][j]==d[i-1][j]){
+                i--;
+            }else if (d[i][j]==d[i][j-1]) {
+            j--;
+            }else if (d[i][j]==d[i-1][j-1]+1) {
+            ans+=s1[i-1];
+            i--;
+            j--;
+            }
+        }
+        if(ans.size()==0){
+            return "-1";
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
